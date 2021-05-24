@@ -1,7 +1,9 @@
+/* Step 0. Load libraries */
 #include <SFML/Graphics.hpp>
 #include <time.h>
 using namespace sf;
 
+/* Step 1. Create functions and structures or classes */
 // Let's define a field array
 const int M = 20;
 const int N = 10;
