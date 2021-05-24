@@ -34,6 +34,10 @@ int main()
   // And we define a rectangle where to crop the image
   s.setTextureRect(IntRect(0,0,18,18));
   
+  int dx=0; 
+  bool rotate=0;
+  int colorNum=1;
+  
   // Ok, let's add an instruction to poll if the window is open
   while(window.isOpen())
   {
@@ -42,22 +46,51 @@ int main()
     {
       if(e.type == Event::Closed)
         window.close();
+      // If we want to rotate the figure
+      if(e.type == Event::KeyPressed)
+      {
+        if(e.key.code == Keyboard::Up) rotate = true;
+        else if(e.key.code == Keyboard::Left) dx=-1;
+        else if(e.key.code == Keyboard::Right) dx=1;
+      }
     }
+  
+  // Now move the figure
+  for(int i=0;i<4;i++) a[i].x+=dx;
     
+  // And rotate the figure
+  if(rotate)
+  {
+    Point p = a[1]; // Center of rotation
+    for(int i=0;i<4;i++)
+    {
+      int x = a[i].y - p.y;
+      int y = a[i].x - p.x;
+      a[i].x = p.x - x;
+      a[i].y = p.y + y;
+    }
+  }
+  
+  
   int n=3;
+  if(a[0].x==0)
   for(int i=0;i<4;i++)
   {
     a[i].x = figures[n][i] % 2;
     a[i].y = figures[n][i] / 2;
   }
-  // Now clear the window
-  window.clear(Color::White);
+  
+  dx = 0;
+  rotate = 0;
   
   for(int i=0; i<4; i++)
   {
     s.setPosition(a[i].x*18, a[i].y*18);
     window.draw(s);
   }
+  // Now clear the window
+  window.clear(Color::White);
+  
   // Let's draw our sprite into the window
   window.draw(s);
   // After drawing the sprite, let's display the window
