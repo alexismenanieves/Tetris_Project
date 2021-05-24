@@ -22,8 +22,17 @@ int figures[7][4] =
   2,3,4,5, // O
 };
 
+bool check()
+{
+  for(int i=0; i<4; i++)
+    if(a[i].x<0 || a[i].x>=N || a[i].y>=M) return 0;
+    else if(field[a[i].y][a[i].x]) return 0;
+  return 1;
+}
+
 int main()
 {
+  srand(time(0));
   // First we have to create a window object, sized 400 x 600
   RenderWindow window(VideoMode(400,600),"Tetris - A homemade game");
   // Now let's load a texture, that is an image we will move
@@ -38,9 +47,19 @@ int main()
   bool rotate=0;
   int colorNum=1;
   
+  float timer=0, delay=0.3;
+  
+  Clock clock;
+  
   // Ok, let's add an instruction to poll if the window is open
   while(window.isOpen())
   {
+    // We want to use a timer to let figures fall down
+    float time = clock.getElapsedTime().asSeconds();
+    clock.restart();
+    timer += time;
+    
+    
     Event e;
     while(window.pollEvent(e))
     {
@@ -54,9 +73,16 @@ int main()
         else if(e.key.code == Keyboard::Right) dx=1;
       }
     }
+    
+  if(Keyboard::isKeyPressed(Keyboard::Down)) delay=0.05; 
   
   // Now move the figure
-  for(int i=0;i<4;i++) a[i].x+=dx;
+  for(int i=0;i<4;i++) 
+  {
+    b[i] = a[i];
+    a[i].x += dx;
+  }
+  if(!check()) for(int i=0;i<4;i++) a[i]=b[i];
     
   // And rotate the figure
   if(rotate)
@@ -69,30 +95,69 @@ int main()
       a[i].x = p.x - x;
       a[i].y = p.y + y;
     }
+    if(!check()) for(int i=0; i<4; i++) a[i]=b[i];
   }
   
+  // This is our timer tick
   
-  int n=3;
-  if(a[0].x==0)
-  for(int i=0;i<4;i++)
+  if(timer>delay)
   {
-    a[i].x = figures[n][i] % 2;
-    a[i].y = figures[n][i] / 2;
+    for(int i=0; i<4; i++) 
+    {
+      b[i] = a[i];
+      a[i].y+=1;
+    }
+    if(!check())
+    {
+      for(int i=0; i<4; i++) field[b[i].y][b[i].x]=colorNum;
+      colorNum=1+rand()%7;
+      int n=rand()%7;
+      for(int i=0;i<4;i++)
+      {
+        a[i].x = figures[n][i] % 2;
+        a[i].y = figures[n][i] / 2;
+      }
+    }
+    timer=0;
+  }
+  
+  // Check lines
+  int k = M-1;
+  for(int i= M-1; i>0; i--)
+  {
+    int count=0;
+    for(int j=0; j<N; j++)
+    {
+      if(field[i][j]) count++;
+      field[k][j]=field[i][j];
+    }
+    if(count<N) k--;
   }
   
   dx = 0;
   rotate = 0;
+  delay = 0.3;
+  
+  // Now draw all the info
+  window.clear(Color::White);
+  for(int i=0; i<M; i++)
+    for(int j=0; j<N; j++)
+    {
+      if(field[i][j]==0) continue;
+      s.setTextureRect(IntRect(field[i][j]*18,0,18,18));
+      s.setPosition(j*18,i*18);
+      s.move(28,31);
+      window.draw(s);
+    }
   
   for(int i=0; i<4; i++)
   {
+    s.setTextureRect(IntRect(colorNum*18,0,18,18));
     s.setPosition(a[i].x*18, a[i].y*18);
+    s.move(28,31);
     window.draw(s);
   }
-  // Now clear the window
-  window.clear(Color::White);
-  
-  // Let's draw our sprite into the window
-  window.draw(s);
+
   // After drawing the sprite, let's display the window
   window.display();
   }
