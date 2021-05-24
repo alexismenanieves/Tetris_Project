@@ -161,6 +161,7 @@ int main()
   }
 
   // After drawing the sprite, let's display the window
+  // we can also display a background
   window.display();
   }
   return 0;
