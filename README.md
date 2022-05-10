@@ -34,7 +34,7 @@ make all
 ### References
 [1] StackOverflow (May 9, 2022). Installing cmake with Hombrew 
 https://stackoverflow.com/questions/32185079/installing-cmake-with-home-brew  
-[2] Stackoverflow (May 9, 2022). How to use cmake on Mac 
+[2] Stackoverflow (May 9, 2022). How to use cmake on Mac  
 https://stackoverflow.com/questions/29727770/how-to-use-cmake-on-mac  
 [3] SFML. (May 9, 2022).  TOPIC: CAN'T COMPILE "SFML WORKS" EXAMPLE PROJECT ON 
 M1 MAC https://en.sfml-dev.org/forums/index.php?topic=27867.0  
