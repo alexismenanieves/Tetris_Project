@@ -19,9 +19,9 @@ the architecture [1]
 arch -arm64 brew install cmake
 ```
 
-- In the terminal, download the source code on a folder called "build", go to 
-the folder and use cmake to compile and build the libraries [1] for the M1 chip 
-[2]
+- In the terminal, download the SFML source code on a folder called "build", go 
+to the folder [2] and use cmake to compile and build the libraries for the M1 
+chip [3]
 ```
 git clone https://github.com/SFML/SFML.git
 mkdir build
@@ -33,6 +33,7 @@ make all
 
 ### References
 [1] StackOverflow (May 9, 2022). Installing cmake with Hombrew https://stackoverflow.com/questions/32185079/installing-cmake-with-home-brew  
-[2] SFML. (May 9, 2022).  TOPIC: CAN'T COMPILE "SFML WORKS" EXAMPLE PROJECT ON 
+[2] Stackoverflow (May 9, 2022). How to use cmake on Mac  https://stackoverflow.com/questions/29727770/how-to-use-cmake-on-mac  
+[3] SFML. (May 9, 2022).  TOPIC: CAN'T COMPILE "SFML WORKS" EXAMPLE PROJECT ON 
 M1 MAC https://en.sfml-dev.org/forums/index.php?topic=27867.0  
  
